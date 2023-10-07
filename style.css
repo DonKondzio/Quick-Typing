@@ -1,0 +1,312 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #1e0555;
+}
+
+body,
+.quote-input {
+  font-family: "Montserrat", sans-serif;
+}
+
+.timer {
+  position: absolute;
+  top: 3rem;
+  font-size: 3rem;
+  color: #f0db4f;
+  font-weight: bold;
+}
+
+.points-text {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 2rem;
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.hand {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+}
+
+.left-hand {
+  left: -25%;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-image: url(img/hand-left.png);
+}
+
+.right-hand {
+  right: -25%;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-image: url(img/hand-right.png);
+}
+
+.hand span {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: lime;
+  border-radius: 50%;
+}
+
+.hand span.active-finger {
+  display: block;
+}
+
+.left-hand span:nth-child(1) {
+  top: 22%;
+}
+
+.left-hand span:nth-child(2) {
+  left: 23%;
+  top: 7%;
+}
+
+.left-hand span:nth-child(3) {
+  left: 45%;
+}
+
+.left-hand span:nth-child(4) {
+  left: 73%;
+  top: 13%;
+}
+
+.left-hand span:nth-child(5) {
+  left: 86%;
+  top: 50%;
+}
+
+.right-hand span:nth-child(1) {
+  right: 86%;
+  top: 50%;
+}
+
+.right-hand span:nth-child(2) {
+  right: 73%;
+  top: 13%;
+}
+
+.right-hand span:nth-child(3) {
+  right: 45%;
+}
+
+.right-hand span:nth-child(4) {
+  right: 23%;
+  top: 7%;
+}
+
+.right-hand span:nth-child(5) {
+  top: 22%;
+  right: 0;
+}
+
+.container {
+  background-color: #f0db4f;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+  max-width: 90%;
+}
+
+.keyboard-base {
+  margin-bottom: 2rem;
+  padding: 15px;
+  background-color: rgb(197, 197, 197);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(30, 25px);
+  grid-template-rows: repeat(5, 50px);
+  grid-gap: 3px;
+}
+
+.key {
+  background-color: rgb(243, 243, 243);
+  border: 2px solid black;
+  border-radius: 5px;
+  grid-column: span 2;
+  font-size: 16px;
+  text-align: center;
+  padding-top: 13px;
+}
+
+.active-key {
+  background-color: lime;
+}
+
+.wrong-key {
+  background-color: rgb(226, 34, 34);
+}
+
+.delete {
+  grid-column: span 4;
+}
+
+.tab {
+  grid-column: span 3;
+}
+
+.backslash {
+  grid-column: span 3;
+}
+
+.capslock {
+  grid-column: span 4;
+}
+
+.return {
+  grid-column: span 4;
+}
+
+.leftshift {
+  grid-column: span 5;
+}
+
+.rightshift {
+  grid-column: span 5;
+}
+
+.leftctrl {
+  grid-column: span 3;
+}
+
+.command {
+  grid-column: span 3;
+  font-size: 14px;
+}
+
+.space {
+  grid-column: span 13;
+}
+
+.quote-display {
+  margin-bottom: 1rem;
+  font-weight: 500;
+  margin-left: calc(1rem + 2px);
+  margin-right: calc(1rem + 2px);
+  max-width: 800px;
+}
+
+.quote-input {
+  background-color: transparent;
+  border: 2px solid #a1922f;
+  outline: none;
+  width: 100%;
+  height: 8rem;
+  margin: auto;
+  resize: none;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+.quote-input:focus {
+  border-color: black;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+  text-decoration: underline;
+}
+
+.start-btn {
+  padding: 1em 2em;
+  border: none;
+  border-radius: 6px;
+  margin-top: 3em;
+  font-weight: bold;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.start-btn:hover:enabled {
+  background-color: #f0db4f;
+  color: #1e0555;
+}
+
+.start-btn:disabled:hover {
+  cursor: not-allowed;
+}
+
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+}
+
+.active-modal {
+  display: flex;
+}
+
+.modal-container {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  width: 50%;
+  height: 40%;
+  background-color: #ddd;
+  border-radius: 15px;
+  border: 5px solid #333;
+}
+
+.modal-info {
+  font-size: 22px;
+  text-align: center;
+}
+
+.close-btn {
+  padding: 10px 20px;
+  font-size: 22px;
+  border-radius: 10px;
+  border: 2px solid #999;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #ddd;
+}
+
+.close-btn:focus {
+  outline: none;
+  border-color: #111;
+  background-color: #555;
+  color: #fff;
+}
