@@ -12,15 +12,9 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <div class="timer" id="timer">60</div>
+    <p class="timer">60</p>
     <p class="points-text">Points: <span class="points-count">0</span></p>
     <div class="wrapper">
-      <div class="hand left-hand">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="hand right-hand">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
       <div class="keyboard-base">
         <div class="key">~</div>
         <div class="key">1</div>
@@ -85,11 +79,22 @@
         <div class="key">Fn</div>
       </div>
       <div class="container">
-        <div class="quote-display" id="quoteDisplay" draggable="true"></div>
-        <textarea id="quoteInput" class="quote-input" disabled></textarea>
+        <div class="quote-display" draggable="true"></div>
+        <textarea class="quote-input" disabled></textarea>
+        <div class="hand left-hand">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="hand right-hand">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="main-buttons">
+        <button class="main-btn start-btn">Start</button>
+        <button class="main-btn reset-btn" ">Reset</button>
       </div>
     </div>
-    <button class="start-btn">Start</button>
+
+
     <div class="modal">
       <div class="modal-container">
         <p class="modal-info">

@@ -6,11 +6,10 @@
 
 body {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #1e0555;
+  background-color: royalblue;
 }
 
 body,
@@ -19,10 +18,10 @@ body,
 }
 
 .timer {
-  position: absolute;
-  top: 3rem;
+  margin-top: 4rem;
+  position: block;
   font-size: 3rem;
-  color: #f0db4f;
+  color: #fff;
   font-weight: bold;
 }
 
@@ -45,28 +44,34 @@ body,
 }
 
 .left-hand {
-  left: -25%;
-  width: 200px;
-  height: 200px;
-  background-size: cover;
+  left: -210px;
   background-image: url(img/hand-left.png);
 }
 
 .right-hand {
-  right: -25%;
-  width: 200px;
-  height: 200px;
-  background-size: cover;
+  right: -210px;
   background-image: url(img/hand-right.png);
 }
 
 .hand span {
   display: none;
   position: absolute;
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   background-color: lime;
   border-radius: 50%;
+  animation: shine 0.5s infinite alternate;
+}
+
+@keyframes shine {
+  from {
+    background-color: lime;
+    scale: 1;
+  }
+  to {
+    background-color: limegreen;
+    scale: 1.05;
+  }
 }
 
 .hand span.active-finger {
@@ -74,54 +79,59 @@ body,
 }
 
 .left-hand span:nth-child(1) {
+  left: -3%;
   top: 22%;
 }
 
 .left-hand span:nth-child(2) {
-  left: 23%;
-  top: 7%;
+  left: 20%;
+  top: 4%;
 }
 
 .left-hand span:nth-child(3) {
-  left: 45%;
+  top: -2%;
+  left: 43%;
 }
 
 .left-hand span:nth-child(4) {
-  left: 73%;
+  left: 71%;
   top: 13%;
 }
 
 .left-hand span:nth-child(5) {
-  left: 86%;
-  top: 50%;
+  left: 85%;
+  top: 46%;
 }
 
 .right-hand span:nth-child(1) {
-  right: 86%;
-  top: 50%;
+  right: 85%;
+  top: 46%;
 }
 
 .right-hand span:nth-child(2) {
-  right: 73%;
+  right: 71%;
   top: 13%;
 }
 
 .right-hand span:nth-child(3) {
-  right: 45%;
+  top: -2%;
+
+  right: 43%;
 }
 
 .right-hand span:nth-child(4) {
-  right: 23%;
-  top: 7%;
+  right: 20%;
+  top: 4%;
 }
 
 .right-hand span:nth-child(5) {
+  right: -3%;
   top: 22%;
-  right: 0;
 }
 
 .container {
-  background-color: #f0db4f;
+  position: relative;
+  background-color: #fff;
   padding: 1rem;
   border-radius: 0.5rem;
   width: 100%;
@@ -130,6 +140,7 @@ body,
 .wrapper {
   position: relative;
   max-width: 90%;
+  margin-top: 3rem;
 }
 
 .keyboard-base {
@@ -149,15 +160,16 @@ body,
   border-radius: 5px;
   grid-column: span 2;
   font-size: 16px;
+  font-weight: 500;
   text-align: center;
   padding-top: 13px;
 }
 
-.active-key {
+.key.active-key {
   background-color: lime;
 }
 
-.wrong-key {
+.key.wrong-key {
   background-color: rgb(226, 34, 34);
 }
 
@@ -212,7 +224,7 @@ body,
 
 .quote-input {
   background-color: transparent;
-  border: 2px solid #a1922f;
+  border: 2px solid #333;
   outline: none;
   width: 100%;
   height: 8rem;
@@ -237,8 +249,15 @@ body,
   text-decoration: underline;
 }
 
-.start-btn {
-  padding: 1em 2em;
+.main-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-btn {
+  margin: 4rem 2rem;
+  padding: 1rem 2rem;
   border: none;
   border-radius: 6px;
   margin-top: 3em;
@@ -249,12 +268,18 @@ body,
   transition: background-color 0.3s, color 0.3s;
 }
 
-.start-btn:hover:enabled {
-  background-color: #f0db4f;
-  color: #1e0555;
+.main-btn:hover:enabled {
+  background-color: #555;
+  color: #fff;
 }
 
-.start-btn:disabled:hover {
+.main-btn:focus {
+  outline: none;
+  background-color: #111;
+  color: #fff;
+}
+
+.main-btn:disabled:hover {
   cursor: not-allowed;
 }
 
@@ -309,4 +334,34 @@ body,
   border-color: #111;
   background-color: #555;
   color: #fff;
+}
+
+@media (max-width: 1400px) {
+  .keyboard-base {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(30, 20px);
+    grid-template-rows: repeat(5, 40px);
+    grid-gap: 3px;
+  }
+
+  .key {
+    background-color: rgb(243, 243, 243);
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .quote-display {
+    max-width: 650px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hand {
+    display: none;
+  }
 }

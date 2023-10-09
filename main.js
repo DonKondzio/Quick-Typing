@@ -1,8 +1,9 @@
 const RANDOM_QUOTE_API_URL = "http://api.quotable.io/random";
-const quoteDisplayElement = document.getElementById("quoteDisplay");
-const quoteInputElement = document.getElementById("quoteInput");
-const timerElement = document.getElementById("timer");
+const quoteDisplayElement = document.querySelector(".quote-display");
+const quoteInputElement = document.querySelector(".quote-input");
+const timerElement = document.querySelector(".timer");
 const startBtn = document.querySelector(".start-btn");
+const resetBtn = document.querySelector(".reset-btn");
 
 const allFingers = document.querySelectorAll(".hand span");
 const leftHandFingers = document.querySelectorAll(".left-hand span");
@@ -38,6 +39,7 @@ const closeBtn = document.querySelector(".close-btn");
 const modalPoints = document.querySelector(".modal-points-count");
 
 let timeleft = 60;
+let timeInterval;
 
 const checkIfCorrect = () => {
   const arrayQuote = quoteDisplayElement.querySelectorAll("span");
@@ -45,12 +47,15 @@ const checkIfCorrect = () => {
 
   points = 0 + pointsAccumulator;
 
+  //Dla każdej litery z cytatu sprawdza czy jest równa odpowiadającej jej literze
+  // w inpucie. Jeżeli
   arrayQuote.forEach((characterSpan, index) => {
     const character = arrayValue[index];
     if (character == null) {
       characterSpan.classList.remove("correct");
       characterSpan.classList.remove("incorrect");
-      correct = false;
+      // renderNewQuote();
+      // correct = false;
     } else if (character === characterSpan.innerText) {
       characterSpan.classList.add("correct");
       characterSpan.classList.remove("incorrect");
@@ -58,17 +63,19 @@ const checkIfCorrect = () => {
     } else {
       characterSpan.classList.remove("correct");
       characterSpan.classList.add("incorrect");
-      correct = false;
+      // correct = false;
       points--;
     }
   });
 
-  pointsDisplay.textContent = `${points}`;
-
-  if (arrayValue.length >= arrayQuote.length) {
+  if (arrayValue.length == arrayQuote.length) {
+    quoteInputElement.value = null;
+    quoteDisplayElement.innerText = "";
     pointsAccumulator = points;
     renderNewQuote();
   }
+
+  pointsDisplay.textContent = `${points}`;
 
   checkNextLetter();
 };
@@ -77,6 +84,9 @@ const checkNextLetter = () => {
   let nextLetter;
   const arrayQuote = quoteDisplayElement.querySelectorAll("span");
   const arrayValue = quoteInputElement.value.split("");
+
+  //Jeżeli długość znaków w inpucie jest większa niż
+  //w cytacie, to
   if (arrayValue.length < arrayQuote.length) {
     if (arrayValue == "") {
       nextLetter = arrayQuote[0].innerText;
@@ -146,7 +156,7 @@ const handleHandAndKeys = (nextLetter) => {
       fingerToActive = rightHandFingers[4];
     }
   } else {
-    fingerToActive = rightHandFingers[0];
+    fingerToActive = leftHandFingers[4];
     space.classList.add("active-key");
   }
 
@@ -164,6 +174,7 @@ function getRandomQuote() {
     .then((data) => data.content);
 }
 
+// 1.1 Pozyskuje cytat i wstawia do elementu quoteDisplay w formie spanów.
 async function renderNewQuote() {
   const quote = await getRandomQuote();
   quoteDisplayElement.innerText = "";
@@ -172,18 +183,19 @@ async function renderNewQuote() {
     characterSpan.innerText = character;
     quoteDisplayElement.appendChild(characterSpan);
   });
-  quoteInputElement.value = null;
   checkNextLetter();
 }
 
+// 1.2 do zmiennej startTime pozyskuje aktualną datę,
+// następnie porównuje co sekundę aktualną datę ze zmienną startTime
+// i ustawia treść timera na różnicę między 60 i getTimerTime()
 let startTime;
 const startTimer = () => {
   startBtn.disabled = true;
-  timerElement.innerText = 60;
   startTime = new Date();
   timeInterval = setInterval(() => {
     timerElement.innerText = 60 - getTimerTime();
-    if (getTimerTime() === 60) {
+    if (getTimerTime() === 3) {
       showResult();
       clearInterval(timeInterval);
       setModalMessage();
@@ -203,23 +215,30 @@ const enableQuoteInput = () => {
 const showResult = () => {
   modal.classList.add("active-modal");
   modalPoints.textContent = `${points}`;
-  console.log("dada");
 };
 
 const resetAll = () => {
+  startBtn.disabled = false;
   quoteDisplayElement.innerHTML = "";
   quoteInputElement.value = null;
   pointsDisplay.textContent = "0";
   timerElement.innerText = 60;
   startBtn.disabled = false;
   pointsAccumulator = 0;
+  clearInterval(timeInterval);
   allFingers.forEach((finger) => {
     finger.classList.remove("active-finger");
+  });
+  keys.forEach((key) => {
+    key.classList.remove("active-key");
+    key.classList.remove("wrong-key");
   });
 };
 
 const setModalMessage = () => {
-  if (points < 50) {
+  if (points < 0) {
+    modalMsg.textContent = "You had one simple task...";
+  } else if (points < 50) {
     modalMsg.textContent =
       "Thanks for your engagement but my grandpa would write faster.";
   } else if (points < 150) {
@@ -233,7 +252,7 @@ const setModalMessage = () => {
       "Overall it wasn't bad, but it can still be better, right?";
   } else if (points < 300) {
     modalMsg.textContent =
-      "That's preety good score. If you practise more, maybe you'll write really fast!";
+      "That's a preety good score. If you practise more, you'll write really fast!";
   } else if (points <= 400) {
     modalMsg.textContent =
       "Wow, very nice score. Keep practise, and you'll become a master";
@@ -247,8 +266,20 @@ const closeModal = () => {
   resetAll();
 };
 
-startBtn.addEventListener("click", renderNewQuote);
-startBtn.addEventListener("click", enableQuoteInput);
-startBtn.addEventListener("click", startTimer);
 quoteInputElement.addEventListener("input", checkIfCorrect);
+
+startBtn.addEventListener("click", renderNewQuote);
+startBtn.addEventListener("click", startTimer);
+startBtn.addEventListener("click", enableQuoteInput);
+resetBtn.addEventListener("click", resetAll);
 closeBtn.addEventListener("click", closeModal);
+
+if (window.innerWidth < 1000) {
+  alert(
+    "This website was created to use on desktop devices. It won't be displayed well on mobile devices."
+  );
+} else {
+  alert(
+    "Welcome to the Quick Typing game. Click start and try to rewrite the quote as fast as you can. Good luck!"
+  );
+}
