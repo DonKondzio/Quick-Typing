@@ -365,3 +365,22 @@ body,
     display: none;
   }
 }
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 80%;
+  }
+
+  .keyboard-base {
+    display: none;
+  }
+
+  .container {
+    max-width: 600px;
+  }
+
+  .points-text {
+    margin: 1rem;
+    font-size: 1.2rem;
+  }
+}
